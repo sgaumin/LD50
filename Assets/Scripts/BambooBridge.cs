@@ -12,6 +12,9 @@ using static Facade;
 
 public class BambooBridge : MonoBehaviour
 {
+	[SerializeField] private bool alreadySetup;
+
+	[Header("References")]
 	[SerializeField] private Dependency<Collider2D> _box;
 	[SerializeField] private Dependency<SpriteRenderer> _spriteRenderer;
 
@@ -24,6 +27,13 @@ public class BambooBridge : MonoBehaviour
 
 	private void Start()
 	{
+		if (alreadySetup)
+		{
+			isBuilt = true;
+			box.isTrigger = false;
+			return;
+		}
+
 		box.isTrigger = true;
 		spriteRenderer.enabled = false;
 	}
@@ -32,8 +42,9 @@ public class BambooBridge : MonoBehaviour
 	{
 		if (isBuilt || !Player.HasBambooPack) return;
 
-		isBuilt = true;
 		Player.BambooPackCount--;
+
+		isBuilt = true;
 		box.isTrigger = false;
 		spriteRenderer.enabled = true;
 	}
