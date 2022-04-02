@@ -16,6 +16,9 @@ public class HUDManager : Singleton<HUDManager>
 	[SerializeField] private IconHUD bucketIcon;
 	[SerializeField] private IconHUD bambooIcon;
 
+	public Vector2 BucketPosition => bucketIcon.transform.position;
+	public Vector2 BambooPosition => bambooIcon.transform.position;
+
 	public void SetupBambooIcon(int value)
 	{
 		bambooIcon.Setup(value);

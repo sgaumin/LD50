@@ -53,6 +53,9 @@ TagManager:
   - name: Tree
     uniqueID: 2594707737
     locked: 0
+  - name: Spawner
+    uniqueID: 416633911
+    locked: 0
   - name: Fountain
     uniqueID: 388184613
     locked: 0
@@ -71,11 +74,11 @@ TagManager:
   - name: BambooPack
     uniqueID: 1753905875
     locked: 0
-  - name: Decorations
-    uniqueID: 2933171587
-    locked: 0
   - name: River
     uniqueID: 3627610611
+    locked: 0
+  - name: Decorations
+    uniqueID: 2933171587
     locked: 0
   - name: HUD
     uniqueID: 3489906579

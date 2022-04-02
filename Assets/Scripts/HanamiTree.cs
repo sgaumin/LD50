@@ -12,6 +12,7 @@ using static Facade;
 
 public class HanamiTree : MonoBehaviour
 {
+	[SerializeField] private Spirit spirit;
 	[SerializeField] private Sprite wateredSprite;
 	[SerializeField] private ParticleSystem flowerEffect;
 
@@ -26,6 +27,7 @@ public class HanamiTree : MonoBehaviour
 		{
 			hasBeenWatered = value;
 			flowerEffect.Play();
+			spirit.Fade();
 			spriteRenderer.sprite = wateredSprite;
 			Level.CheckLevelCompletion();
 		}

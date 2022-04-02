@@ -39,7 +39,8 @@ public class PlayerAttackArea : MonoBehaviour
 		{
 			if (collision.TryGetComponent(out BambooBridge br) && !br.IsBuilt)
 			{
-				br.TryBuild();
+				var bs = FindObjectsOfType<BambooBridge>().Where(x => !x.IsBuilt).OrderBy(x => Vector2.Distance(x.transform.position, Player.transform.position)).FirstOrDefault();
+				bs.TryBuild();
 				done = true;
 			}
 			else if (collision.TryGetComponent(out Bamboo b))

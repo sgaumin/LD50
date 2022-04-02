@@ -113,7 +113,10 @@ public class PlayerController : Singleton<PlayerController>
 		if (canAttack && Input.GetButtonDown("Attack") && (canAirAttack || !isJumping))
 		{
 			if (!HasWaterBucket)
+			{
 				body.AddForce(new Vector2((facingRight ? -1f : 1f) * attackMoveBackX.RandomValue, attackMoveBackY.RandomValue));
+				Level.GenerateImpulse();
+			}
 
 			animator.SetTrigger("Attack");
 			this.TryStartCoroutine(ResetAttack(), ref resettingAttack);
@@ -216,6 +219,8 @@ public class PlayerController : Singleton<PlayerController>
 		animator.SetTrigger("WaterDeath");
 		isDead = true;
 		body.Freeze();
+		Level.InverseColor();
+		Level.GenerateImpulse();
 
 		StartCoroutine(KilledByRiverCore());
 	}

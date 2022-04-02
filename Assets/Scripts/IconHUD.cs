@@ -37,7 +37,6 @@ public class IconHUD : MonoBehaviour
 		foreach (var item in usages)
 		{
 			item.sprite = i < count ? usageOn : usageOff;
-			item.color = i < count ? Color.green : Color.grey;
 			i++;
 		}
 	}

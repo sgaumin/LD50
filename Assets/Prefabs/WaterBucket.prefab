@@ -123,6 +123,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6758a924bf8853544a0d8643353a36c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moveToIconDuration: 0.7
+  moveToIconScale: 0
+  moveToIconEase: 3
+  _collider2D:
+    _source: 0
+    _localReference: {fileID: 0}
 --- !u!114 &1957340523230752230
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3973963096325509418}
   - component: {fileID: 3973963096325509416}
   - component: {fileID: 7504073506123977138}
+  - component: {fileID: 6687538656337237912}
   m_Layer: 0
   m_Name: Spirit
   m_TagString: Untagged
@@ -71,7 +72,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1770483479
-  m_SortingLayer: 5
+  m_SortingLayer: 8
   m_SortingOrder: 0
   m_Sprite: {fileID: -4983606439648650084, guid: f0f71aea020487c43925c645c2605fc0,
     type: 3}
@@ -153,3 +154,18 @@ MonoBehaviour:
     playOnStart: 0
     isReverting: 0
     isIgnoringTime: 0
+--- !u!114 &6687538656337237912
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3973963096325509413}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 845c46f026d4cda48bf8ff9e067bfa8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _animator:
+    _source: 0
+    _localReference: {fileID: 0}
