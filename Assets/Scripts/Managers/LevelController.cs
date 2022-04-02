@@ -13,6 +13,13 @@ using static Facade;
 
 public class LevelController : SceneBase
 {
+	[Header("Stats")]
+	[SerializeField] private int startMaxBucketWater = 1;
+	[SerializeField] private int startMaxBambooPack = 3;
+
+	public int StartMaxBucketWater => startMaxBucketWater;
+	public int StartMaxBambooPack => startMaxBambooPack;
+
 	private List<HanamiTree> trees = new List<HanamiTree>();
 
 	protected override void Start()

@@ -24,10 +24,6 @@ public class PlayerController : Singleton<PlayerController>
 	[SerializeField] private LayerMask groundLayer;
 	[SerializeField] private Transform groundCheck;
 
-	[Header("Stats")]
-	[SerializeField] private int maxBucketWater = 1;
-	[SerializeField] private int maxBambooPack = 3;
-
 	[Header("Attacking")]
 	[SerializeField] private bool canAirAttack;
 	[SerializeField] private float attackReset = 0.2f;
@@ -46,19 +42,65 @@ public class PlayerController : Singleton<PlayerController>
 	private Vector3 currentVelocity = Vector3.zero;
 	private Coroutine resettingAttack;
 	private int waterBucketCount;
+	private int bambooPackCount;
 	private bool isDead;
+	private int maxBucketWater;
+	private int maxBambooPack;
 
 	private Animator animator => _animator.Resolve(this);
 	private Rigidbody2D body => _body.Resolve(this);
 
-	public int BambooPackCount { get; set; }
-	public bool FullOfBucketWater => waterBucketCount == maxBucketWater;
-	public bool FullOfBambooPack => BambooPackCount == maxBambooPack;
-	public bool HasWaterBucket => waterBucketCount > 0;
+	public int MaxBucketWater
+	{
+		get => maxBucketWater;
+		set
+		{
+			maxBucketWater = value;
+			HUD.SetupBucketIcon(maxBucketWater);
+		}
+	}
+
+	public int MaxBambooPack
+	{
+		get => maxBambooPack;
+		set
+		{
+			maxBambooPack = value;
+			HUD.SetupBambooIcon(maxBambooPack);
+		}
+	}
+
+	public int BambooPackCount
+	{
+		get => bambooPackCount;
+		set
+		{
+			bambooPackCount = Mathf.Max(0, Mathf.Min(value, MaxBambooPack));
+			HUD.UpdateBambooUsage(bambooPackCount);
+		}
+	}
+
+	public int WaterBucketCount
+	{
+		get => waterBucketCount;
+		set
+		{
+			waterBucketCount = Mathf.Max(0, Mathf.Min(value, MaxBucketWater));
+			HUD.UpdateBucketUsage(waterBucketCount);
+		}
+	}
+	public bool FullOfBucketWater => WaterBucketCount == MaxBucketWater;
+	public bool FullOfBambooPack => BambooPackCount == MaxBambooPack;
+	public bool HasWaterBucket => WaterBucketCount > 0;
 	public bool HasBambooPack => BambooPackCount > 0;
 
 	private void Start()
 	{
+		WaterBucketCount = 0;
+		BambooPackCount = 0;
+		MaxBucketWater = Level.StartMaxBucketWater;
+		MaxBambooPack = Level.StartMaxBambooPack;
+
 		body.gravityScale = defaultGravityScale;
 		canAttack = true;
 	}
@@ -73,6 +115,7 @@ public class PlayerController : Singleton<PlayerController>
 			if (!HasWaterBucket)
 				body.AddForce(new Vector2((facingRight ? -1f : 1f) * attackMoveBackX.RandomValue, attackMoveBackY.RandomValue));
 
+			animator.SetTrigger("Attack");
 			this.TryStartCoroutine(ResetAttack(), ref resettingAttack);
 		}
 
@@ -84,6 +127,9 @@ public class PlayerController : Singleton<PlayerController>
 
 		movementInputs.x = Input.GetAxisRaw("Horizontal");
 		movementInputs.y = Input.GetAxisRaw("Vertical");
+
+		animator.SetBool("Walking", movementInputs.x != 0f);
+		animator.SetBool("Jumping", isJumping);
 	}
 
 	private void FixedUpdate()
@@ -117,7 +163,7 @@ public class PlayerController : Singleton<PlayerController>
 
 		yield return new WaitForSeconds(attackReset);
 
-		waterBucketCount = Mathf.Max(0, waterBucketCount - 1);
+		WaterBucketCount--;
 		attackArea.gameObject.SetActive(false);
 		canAttack = true;
 	}
@@ -149,12 +195,12 @@ public class PlayerController : Singleton<PlayerController>
 
 	public void CollectWaterBucket()
 	{
-		waterBucketCount = Mathf.Min(maxBucketWater, waterBucketCount + 1);
+		WaterBucketCount++;
 	}
 
 	public void CollectBambooPack()
 	{
-		BambooPackCount = Mathf.Min(maxBambooPack, BambooPackCount + 1);
+		BambooPackCount++;
 	}
 
 	private void Flip()
@@ -167,8 +213,16 @@ public class PlayerController : Singleton<PlayerController>
 
 	public void KilledByRiver()
 	{
+		animator.SetTrigger("WaterDeath");
 		isDead = true;
 		body.Freeze();
+
+		StartCoroutine(KilledByRiverCore());
+	}
+
+	private IEnumerator KilledByRiverCore()
+	{
+		yield return new WaitForSeconds(1f);
 		Level.ReloadScene();
 	}
 }

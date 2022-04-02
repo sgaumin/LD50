@@ -59,6 +59,9 @@ TagManager:
   - name: BambooPack
     uniqueID: 1753905875
     locked: 0
+  - name: Decorations
+    uniqueID: 2933171587
+    locked: 0
   - name: River
     uniqueID: 3627610611
     locked: 0

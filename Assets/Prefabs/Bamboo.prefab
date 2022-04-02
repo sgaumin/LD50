@@ -99,7 +99,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.5}
+  m_Offset: {x: 0, y: 1.5}
   m_SpriteTilingProperty:
     border: {x: 0.25, y: 0.25, z: 0.25, w: 0.25}
     pivot: {x: 0.5, y: 0.5}
@@ -110,7 +110,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 2}
+  m_Size: {x: 1, y: 4}
   m_EdgeRadius: 0
 --- !u!50 &5069166903403243485
 Rigidbody2D:
@@ -160,6 +160,14 @@ MonoBehaviour:
     Color: {r: 0.9468937, g: 0, b: 1, a: 1}
     offset: {x: 0, y: 0.5}
     size: {x: 1, y: 2}
+  - Sprite: {fileID: 0}
+    Color: {r: 0, g: 1, b: 0.43364525, a: 1}
+    offset: {x: 0, y: 1}
+    size: {x: 1, y: 3}
+  - Sprite: {fileID: 0}
+    Color: {r: 0, g: 0.9088969, b: 1, a: 1}
+    offset: {x: 0, y: 1.5}
+    size: {x: 1, y: 4}
   bambooStackCreation:
     min: 1
     max: 4

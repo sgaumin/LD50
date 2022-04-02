@@ -374,6 +374,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3058391553919424962}
   - component: {fileID: 156270100456411831}
+  - component: {fileID: 4887806993475893798}
   m_Layer: 5
   m_Name: IconHUD
   m_TagString: Untagged
@@ -410,6 +411,27 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7875126928130924651}
   m_CullTransparentMesh: 1
+--- !u!114 &4887806993475893798
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7875126928130924651}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4dce752e3b62750409fcca91ea7ad419, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  usages:
+  - {fileID: 3125504858533165582}
+  - {fileID: 5160424944485306885}
+  - {fileID: 2570230622758558836}
+  - {fileID: 4110510253199248541}
+  usageOn: {fileID: -2413806693520163455, guid: ebe73ca9363db456bacf42c025bb4847,
+    type: 3}
+  usageOff: {fileID: -5177388603050735206, guid: 71ebafeef3c03457483266a33ab2b270,
+    type: 3}
 --- !u!1 &8016061315583852866
 GameObject:
   m_ObjectHideFlags: 0

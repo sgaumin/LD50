@@ -12,8 +12,17 @@ using static Facade;
 
 public class PlayerAttackArea : MonoBehaviour
 {
+	private bool done;
+
+	private void OnEnable()
+	{
+		done = false;
+	}
+
 	private void OnTriggerEnter2D(Collider2D collision)
 	{
+		if (done) return;
+
 		if (Player.HasWaterBucket)
 		{
 			if (collision.TryGetComponent(out Bamboo b))
@@ -24,16 +33,19 @@ public class PlayerAttackArea : MonoBehaviour
 			{
 				t.HasBeenWatered = true;
 			}
+			done = true;
 		}
 		else
 		{
-			if (collision.TryGetComponent(out BambooBridge br))
+			if (collision.TryGetComponent(out BambooBridge br) && !br.IsBuilt)
 			{
 				br.TryBuild();
+				done = true;
 			}
 			else if (collision.TryGetComponent(out Bamboo b))
 			{
 				b.Reduce();
+				done = true;
 			}
 		}
 	}

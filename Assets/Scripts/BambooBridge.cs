@@ -20,6 +20,8 @@ public class BambooBridge : MonoBehaviour
 	private SpriteRenderer spriteRenderer => _spriteRenderer.Resolve(this);
 	private Collider2D box => _box.Resolve(this);
 
+	public bool IsBuilt => isBuilt;
+
 	private void Start()
 	{
 		box.isTrigger = true;
