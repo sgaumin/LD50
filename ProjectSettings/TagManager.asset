@@ -11,11 +11,11 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Ground
+  - Bamboo
+  - BambooPack
+  - BambooBridge
+  - Player
   - 
   - 
   - 
@@ -40,6 +40,30 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Ground
+    uniqueID: 1068213121
+    locked: 0
+  - name: Fountain
+    uniqueID: 388184613
+    locked: 0
+  - name: Bucket
+    uniqueID: 1294847189
+    locked: 0
+  - name: Player
+    uniqueID: 2884655973
+    locked: 0
+  - name: Bamboo
+    uniqueID: 3277784667
+    locked: 0
+  - name: BambooPack
+    uniqueID: 1753905875
+    locked: 0
+  - name: River
+    uniqueID: 3627610611
+    locked: 0
+  - name: HUD
+    uniqueID: 3489906579
     locked: 0
   - name: Fader
     uniqueID: 1476709903

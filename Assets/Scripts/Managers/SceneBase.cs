@@ -27,6 +27,9 @@ public abstract class SceneBase : Singleton<SceneBase>
 	[Header("Audio")]
 	[SerializeField] protected AudioClip music;
 
+	[Header("Transitions")]
+	[SerializeField] private float faderDuration = 1f;
+
 	[Header("Local References")]
 	[SerializeField] protected Dependency<FadeScreen> _fader;
 	[SerializeField] protected Dependency<CinemachineImpulseSource> _impulse;
@@ -129,7 +132,7 @@ public abstract class SceneBase : Singleton<SceneBase>
 		}
 		if (fader != null)
 		{
-			fader.FadeIn();
+			fader.FadeIn(faderDuration);
 		}
 
 		State = SceneState.Start;
@@ -354,7 +357,7 @@ public abstract class SceneBase : Singleton<SceneBase>
 
 		if (fader != null)
 		{
-			yield return fader.FadeOutCore();
+			yield return fader.FadeOutCore(faderDuration);
 		}
 
 		content?.Invoke();

@@ -6,5 +6,6 @@ public sealed class PrefabsData : BaseIndex
 
 	public static PrefabsData Instance => GetOrLoad(ref _instance);
 
-	// Set up your references below!
+	public WaterBucket waterBucketPrefab;
+	public BambooPack bambooPackPrefab;
 }
