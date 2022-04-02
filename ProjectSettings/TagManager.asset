@@ -16,8 +16,8 @@ TagManager:
   - BambooPack
   - BambooBridge
   - Player
-  - 
-  - 
+  - PlayerAttack
+  - HanamiTree
   - 
   - 
   - 
@@ -44,6 +44,9 @@ TagManager:
   - name: Ground
     uniqueID: 1068213121
     locked: 0
+  - name: Tree
+    uniqueID: 2594707737
+    locked: 0
   - name: Fountain
     uniqueID: 388184613
     locked: 0
@@ -52,6 +55,9 @@ TagManager:
     locked: 0
   - name: Player
     uniqueID: 2884655973
+    locked: 0
+  - name: Spirit
+    uniqueID: 2524483817
     locked: 0
   - name: Bamboo
     uniqueID: 3277784667

@@ -16,7 +16,6 @@ public class Bamboo : MonoBehaviour
 	private struct BambooStateData
 	{
 		public Sprite Sprite;
-		public Color Color;
 		public Vector2 offset;
 		public Vector2 size;
 	}
@@ -88,6 +87,5 @@ public class Bamboo : MonoBehaviour
 
 		var data = states[CurrentStateIndex];
 		if (data.Sprite != null) spriteRenderer.sprite = data.Sprite;
-		if (data.Color != null) spriteRenderer.color = data.Color;
 	}
 }

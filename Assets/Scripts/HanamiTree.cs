@@ -12,15 +12,21 @@ using static Facade;
 
 public class HanamiTree : MonoBehaviour
 {
-	[SerializeField] private Dependency<Animator> _animator;
+	[SerializeField] private Sprite wateredSprite;
+	[SerializeField] private ParticleSystem flowerEffect;
 
-	private Animator animator => _animator.Resolve(this);
+	[Header("References")]
+	[SerializeField] private Dependency<SpriteRenderer> _spriteRenderer;
+
+	private SpriteRenderer spriteRenderer => _spriteRenderer.Resolve(this);
 
 	public bool HasBeenWatered
 	{
 		get => hasBeenWatered; set
 		{
 			hasBeenWatered = value;
+			flowerEffect.Play();
+			spriteRenderer.sprite = wateredSprite;
 			Level.CheckLevelCompletion();
 		}
 	}

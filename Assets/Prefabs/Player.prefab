@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5159677133665907432}
   - component: {fileID: 5159677133665907438}
   - component: {fileID: 5159677133665907437}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: AttackArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -80,7 +80,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5159677133788350842}
   - component: {fileID: 5159677133788350841}
-  - component: {fileID: 5159677133788350836}
+  - component: {fileID: 7222458801001052856}
   - component: {fileID: 5159677133788350843}
   - component: {fileID: 5159677133788350838}
   - component: {fileID: 5159677133788350837}
@@ -159,8 +159,8 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &5159677133788350836
-BoxCollider2D:
+--- !u!58 &7222458801001052856
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -172,19 +172,9 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.25, y: 0.5}
-    oldSize: {x: 2, y: 1}
-    newSize: {x: 1, y: 2}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
+  m_Offset: {x: -0.0003130436, y: -0.0040311515}
   serializedVersion: 2
-  m_Size: {x: 0.984375, y: 0.984375}
-  m_EdgeRadius: 0
+  m_Radius: 0.48748457
 --- !u!50 &5159677133788350843
 Rigidbody2D:
   serializedVersion: 4
