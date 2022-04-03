@@ -297,6 +297,10 @@ public class PlayerController : Singleton<PlayerController>
 	public void PlayWalkSound()
 	{
 		walkSound.Play();
+
+		var e = Instantiate(Prefabs.walkingEffect);
+		e.transform.position = (Vector2)transform.position - Vector2.up * 0.25f;
+		e.transform.localScale = new Vector3(facingRight ? -1f : 1f, 1f, 1f);
 	}
 
 	public void CollectWaterBucket()

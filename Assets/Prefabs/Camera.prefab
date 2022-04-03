@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 4381328670056538346}
   - component: {fileID: 4381328670056538344}
   - component: {fileID: 8727629432380039566}
-  - component: {fileID: 771179983621310510}
   - component: {fileID: 1141227168149981218}
   - component: {fileID: 5543425591742282500}
   - component: {fileID: 546079154488410560}
@@ -122,26 +121,6 @@ MonoBehaviour:
   m_CameraActivatedEvent:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &771179983621310510
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4381328670056538345}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a160d838ff8b4b4693ac20007e008c7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_AssetsPPU: 16
-  m_RefResolutionX: 320
-  m_RefResolutionY: 180
-  m_UpscaleRT: 1
-  m_PixelSnapping: 0
-  m_CropFrameX: 1
-  m_CropFrameY: 1
-  m_StretchFill: 1
 --- !u!114 &1141227168149981218
 MonoBehaviour:
   m_ObjectHideFlags: 0
