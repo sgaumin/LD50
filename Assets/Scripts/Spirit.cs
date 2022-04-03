@@ -12,6 +12,9 @@ using static Facade;
 
 public class Spirit : MonoBehaviour
 {
+	[SerializeField] private bool checkLevelCompletion;
+
+	[Space]
 	[SerializeField] private AudioExpress fadeSound;
 	[SerializeField] private Dependency<Animator> _animator;
 
@@ -37,7 +40,10 @@ public class Spirit : MonoBehaviour
 		Level.ResetCameraTarget();
 		Player.CancelInteraction = false;
 
-		yield return new WaitForSeconds(1f);
-		Level.CheckLevelCompletion();
+		if (checkLevelCompletion)
+		{
+			yield return new WaitForSeconds(1f);
+			Level.CheckLevelCompletion();
+		}
 	}
 }

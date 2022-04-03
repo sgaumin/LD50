@@ -80,6 +80,9 @@ TagManager:
   - name: Decorations
     uniqueID: 2933171587
     locked: 0
+  - name: SkillUnlock
+    uniqueID: 1769157373
+    locked: 0
   - name: HUD
     uniqueID: 3489906579
     locked: 0

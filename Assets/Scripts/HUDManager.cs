@@ -9,15 +9,24 @@ using Utils.Dependency;
 using UnityEngine;
 using UnityEngine.UI;
 using static Facade;
+using UnityEngine.Events;
 
 public class HUDManager : Singleton<HUDManager>
 {
 	[Header("References")]
 	[SerializeField] private IconHUD bucketIcon;
 	[SerializeField] private IconHUD bambooIcon;
+	[SerializeField] private Dependency<DialogueBox> _dialog;
+
+	private DialogueBox dialog => _dialog.Resolve(this);
 
 	public Vector2 BucketPosition => bucketIcon.transform.position;
 	public Vector2 BambooPosition => bambooIcon.transform.position;
+
+	public void DisplayTexts(string[] lines, UnityEvent onCompletion = null)
+	{
+		dialog.DisplayTexts(lines, onCompletion);
+	}
 
 	public void SetupBambooIcon(int value)
 	{

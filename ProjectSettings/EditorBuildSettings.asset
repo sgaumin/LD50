@@ -9,6 +9,15 @@ EditorBuildSettings:
     path: Assets/_Scenes/1-House.unity
     guid: 3e83a94ef6185ee41ac7a282945e8c25
   - enabled: 1
+    path: Assets/_Scenes/2-RoadToVillage.unity
+    guid: be79c95838dcfec469ec20a55a795e1e
+  - enabled: 1
+    path: Assets/_Scenes/3-Village.unity
+    guid: 3bc770584b26af048b5221d450f43e47
+  - enabled: 1
+    path: Assets/_Scenes/4-FirstRoad.unity
+    guid: d7acb2af46e889143ba62e866f058981
+  - enabled: 1
     path: Assets/_Scenes/99-Dev.unity
     guid: 9a798019197ab7549a8903b0880ea136
   m_configObjects: {}

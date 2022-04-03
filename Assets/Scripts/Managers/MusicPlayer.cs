@@ -35,16 +35,16 @@ public class MusicPlayer : Singleton<MusicPlayer>
 		}
 	}
 
-	public void FadIn()
+	public void FadIn(float duration = 0.2f)
 	{
 		audioSource.DOKill();
-		audioSource.DOFade(1f, 0.2f);
+		audioSource.DOFade(1f, duration);
 	}
 
-	public void FadOut()
+	public void FadOut(float duration = 2f)
 	{
 		audioSource.DOKill();
-		audioSource.DOFade(0f, 2f);
+		audioSource.DOFade(0f, duration);
 	}
 
 	public void TryUpdateClip(AudioClip clip)
@@ -70,5 +70,14 @@ public class MusicPlayer : Singleton<MusicPlayer>
 
 		Tween fadIn = audioSource.DOFade(1f, Settings.audioFadeDuration);
 		yield return fadIn.WaitForCompletion();
+	}
+
+	public void ForceMusic(AudioClip clip)
+	{
+		audioSource.DOKill();
+		audioSource.Stop();
+		audioSource.clip = clip;
+		audioSource.volume = 1f;
+		audioSource.Play();
 	}
 }

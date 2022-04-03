@@ -72,6 +72,8 @@ public class PlayerController : Singleton<PlayerController>
 			cancelInteraction = value;
 			if (cancelInteraction)
 			{
+				animator.SetBool("Walking", false);
+				animator.SetBool("Jumping", false);
 				movementInputs = Vector2.zero;
 				body.velocity = Vector2.zero;
 				body.angularVelocity = 0;
@@ -137,6 +139,11 @@ public class PlayerController : Singleton<PlayerController>
 
 		body.gravityScale = defaultGravityScale;
 		attackReady = true;
+	}
+
+	public void ForceAllowAttack()
+	{
+		canAttack = true;
 	}
 
 	private void Update()
@@ -222,6 +229,7 @@ public class PlayerController : Singleton<PlayerController>
 	{
 		movementInputs = direction;
 		Move(movementInputs, false);
+		animator.SetBool("Walking", true);
 	}
 
 	private IEnumerator DoAttack()
