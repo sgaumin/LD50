@@ -19,6 +19,8 @@ public class BambooPack : MonoBehaviour
 
 	[Header("Falling")]
 	[SerializeField] private LayerMask groundLayer;
+	[SerializeField] private float groundDetectionRadius = 0.2f;
+	[SerializeField] private Transform groundCheck;
 
 	[Header("Animations")]
 	[SerializeField] private float moveToIconDuration = 0.5f;
@@ -47,7 +49,7 @@ public class BambooPack : MonoBehaviour
 	private void FixedUpdate()
 	{
 		if (isGrounded) return;
-		Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, 0.5f, groundLayer);
+		Collider2D[] colliders = Physics2D.OverlapCircleAll(groundCheck.position, groundDetectionRadius, groundLayer);
 		for (int i = 0; i < colliders.Length; i++)
 		{
 			if (colliders[i].gameObject != gameObject)

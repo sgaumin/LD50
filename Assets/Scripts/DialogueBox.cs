@@ -15,6 +15,7 @@ public class DialogueBox : MonoBehaviour
 {
 	[SerializeField] private float displayLetterDuration = 0.05f;
 	[SerializeField] private AudioExpress bipSound;
+	[SerializeField] private AudioExpress bipTextSound;
 
 	[Header("References")]
 	[SerializeField] private Dependency<TextMeshProUGUI> _text;
@@ -51,6 +52,7 @@ public class DialogueBox : MonoBehaviour
 			foreach (var letter in line)
 			{
 				text.text += letter;
+				bipTextSound.Play();
 				yield return new WaitForSeconds(displayLetterDuration);
 			}
 

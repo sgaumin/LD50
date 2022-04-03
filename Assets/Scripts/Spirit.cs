@@ -9,6 +9,7 @@ using Utils.Dependency;
 using UnityEngine;
 using UnityEngine.UI;
 using static Facade;
+using UnityEngine.Events;
 
 public class Spirit : MonoBehaviour
 {
@@ -38,12 +39,13 @@ public class Spirit : MonoBehaviour
 
 		Level.ResetZoom(0.5f, Ease.OutSine);
 		Level.ResetCameraTarget();
-		Player.CancelInteraction = false;
 
 		if (checkLevelCompletion)
 		{
 			yield return new WaitForSeconds(1f);
 			Level.CheckLevelCompletion();
 		}
+
+		Player.CancelInteraction = false;
 	}
 }

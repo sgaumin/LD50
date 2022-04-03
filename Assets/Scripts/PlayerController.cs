@@ -61,6 +61,7 @@ public class PlayerController : Singleton<PlayerController>
 	private int maxBambooPack;
 	private bool airAttackDone;
 	private bool cancelInteraction;
+	private bool canBeKickBack;
 
 	private Animator animator => _animator.Resolve(this);
 	private Rigidbody2D body => _body.Resolve(this);
@@ -136,6 +137,7 @@ public class PlayerController : Singleton<PlayerController>
 		BambooPackCount = 0;
 		MaxBucketWater = startMaxBucketWater;
 		MaxBambooPack = startMaxBambooPack;
+		canBeKickBack = true;
 
 		body.gravityScale = defaultGravityScale;
 		attackReady = true;
@@ -188,9 +190,10 @@ public class PlayerController : Singleton<PlayerController>
 		Level.GenerateImpulse();
 		Level.FreezeTime();
 
-		if (!isJumping)
+		if (!isJumping && canBeKickBack)
 		{
 			body.AddForce(new Vector2((facingRight ? -1f : 1f) * attackMoveBackX.RandomValue, attackMoveBackY.RandomValue));
+			StartCoroutine(KickBackresetCore());
 		}
 		else
 		{
@@ -198,6 +201,13 @@ public class PlayerController : Singleton<PlayerController>
 		}
 
 		callback?.Invoke();
+	}
+
+	private IEnumerator KickBackresetCore()
+	{
+		canBeKickBack = false;
+		yield return new WaitForSeconds(attackReset);
+		canBeKickBack = true;
 	}
 
 	private void FixedUpdate()
@@ -267,6 +277,10 @@ public class PlayerController : Singleton<PlayerController>
 
 			body.AddForce(new Vector2(0f, jumpForce));
 			jumpSound.Play();
+		}
+		else
+		{
+			jumpInput = false;
 		}
 	}
 

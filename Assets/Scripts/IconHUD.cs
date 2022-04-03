@@ -24,6 +24,8 @@ public class IconHUD : MonoBehaviour
 			return;
 		}
 
+		gameObject.SetActive(true);
+
 		int i = 0;
 		foreach (var item in usages)
 		{

@@ -53,7 +53,7 @@ Canvas:
   m_RenderMode: 1
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
-  m_PixelPerfect: 0
+  m_PixelPerfect: 1
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
@@ -74,10 +74,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
-  m_ReferencePixelsPerUnit: 100
+  m_UiScaleMode: 1
+  m_ReferencePixelsPerUnit: 16
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 760, y: 520}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -596,7 +596,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e535ed36d3a16b469409fe7236f2f61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  displayLetterDuration: 0.015
+  displayLetterDuration: 0.025
   bipSound:
     isUsingClips: 0
     clip: {fileID: 8300000, guid: 867e6b009bd74d449bb4273680132c18, type: 3}
@@ -608,6 +608,19 @@ MonoBehaviour:
       min: 1
       max: 3
     pitchVariation: 2
+    autoDestroy: 0
+    multiplier: 5
+  bipTextSound:
+    isUsingClips: 0
+    clip: {fileID: 8300000, guid: a7ca76459d39a5c4eb6b5fab49569230, type: 3}
+    clips: []
+    mixerGroup: {fileID: 3082015389982426323, guid: dbd143edd4df0224d92ac4ff39f0844e,
+      type: 2}
+    loopType: 0
+    timeBetweenLoop:
+      min: 1
+      max: 3
+    pitchVariation: 0
     autoDestroy: 0
     multiplier: 5
   _text:

@@ -21,9 +21,7 @@ public class PlayerAttackArea : MonoBehaviour
 
 	private void OnTriggerEnter2D(Collider2D collision)
 	{
-		if (done) return;
-
-		if (collision.TryGetComponent(out Bamboo b) && Player.HasWaterBucket)
+		if (!done && collision.TryGetComponent(out Bamboo b) && Player.HasWaterBucket)
 		{
 			Player.DoWaterBucketAttack(() =>
 			{
@@ -31,7 +29,7 @@ public class PlayerAttackArea : MonoBehaviour
 				done = true;
 			});
 		}
-		else if (collision.TryGetComponent(out HanamiTree t) && Player.HasWaterBucket)
+		else if (!done && collision.TryGetComponent(out HanamiTree t) && Player.HasWaterBucket)
 		{
 			Player.DoWaterBucketAttack(() =>
 			{
@@ -39,7 +37,7 @@ public class PlayerAttackArea : MonoBehaviour
 				done = true;
 			});
 		}
-		else if (collision.TryGetComponent(out BambooBridge br) && !br.IsBuilt)
+		else if (!done && collision.TryGetComponent(out BambooBridge br) && !br.IsBuilt)
 		{
 			Player.DoNormalAttack(() =>
 			{

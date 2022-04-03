@@ -18,7 +18,7 @@ public class StartDialogArea : MonoBehaviour
 
 	private bool hasBeenTrigered;
 
-	private void OnTriggerEnter2D(Collider2D collision)
+	private void OnTriggerStay2D(Collider2D collision)
 	{
 		if (!gameObject.activeSelf || hasBeenTrigered) return;
 
@@ -27,5 +27,16 @@ public class StartDialogArea : MonoBehaviour
 			hasBeenTrigered = true;
 			HUD.DisplayTexts(lines, onCompletion);
 		}
+	}
+
+	[ContextMenu("UpperCase Lines")]
+	public void UpperCaseLines()
+	{
+		List<string> temp = new List<string>();
+		foreach (string line in lines)
+		{
+			temp.Add(line.ToUpper());
+		}
+		lines = temp.ToArray();
 	}
 }

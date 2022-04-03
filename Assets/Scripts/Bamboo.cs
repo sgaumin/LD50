@@ -23,7 +23,8 @@ public class Bamboo : MonoBehaviour
 	[SerializeField] private Dependency<BoxCollider2D> _box;
 	[SerializeField] private Dependency<SpriteRenderer> _spriteRenderer;
 
-	private int currentStateIndex = 0;
+	private int currentStateIndex;
+	private bool hasBeenTouched;
 
 	private int CurrentStateIndex
 	{
@@ -83,6 +84,12 @@ public class Bamboo : MonoBehaviour
 	[ContextMenu("Reduce")]
 	public void Reduce()
 	{
+		if (!hasBeenTouched)
+		{
+			hasBeenTouched = true;
+			CurrentStateIndex = startStateIndex;
+		}
+
 		if (CurrentStateIndex > 0)
 		{
 			int count = bambooStackCreation.RandomValue;
@@ -92,9 +99,8 @@ public class Bamboo : MonoBehaviour
 				b.transform.position = (Vector2)transform.position + new Vector2(0f, CurrentStateIndex / 2f);
 				b.Throw();
 			}
+			CurrentStateIndex--;
 		}
-
-		CurrentStateIndex--;
 	}
 
 	[ContextMenu("Grow")]

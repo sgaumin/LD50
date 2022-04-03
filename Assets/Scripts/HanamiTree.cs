@@ -9,9 +9,12 @@ using Utils.Dependency;
 using UnityEngine;
 using UnityEngine.UI;
 using static Facade;
+using UnityEngine.Events;
 
 public class HanamiTree : MonoBehaviour
 {
+	[SerializeField] private UnityEvent onWattered;
+
 	[SerializeField] private bool forceWatteredAtStart;
 
 	[Space]
@@ -37,6 +40,8 @@ public class HanamiTree : MonoBehaviour
 			}
 
 			spriteRenderer.sprite = wateredSprite;
+
+			onWattered?.Invoke();
 		}
 	}
 

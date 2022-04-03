@@ -73,4 +73,15 @@ public class SkillUnlocker : MonoBehaviour
 	{
 		Music.ForceMusic(newMusic);
 	}
+
+	[ContextMenu("UpperCase Lines")]
+	public void UpperCaseLines()
+	{
+		List<string> temp = new List<string>();
+		foreach (string line in lines)
+		{
+			temp.Add(line.ToUpper());
+		}
+		lines = temp.ToArray();
+	}
 }
