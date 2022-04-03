@@ -44,6 +44,9 @@ TagManager:
   - name: ShadowTilemap
     uniqueID: 3073951359
     locked: 0
+  - name: DecorationsBack
+    uniqueID: 4218999347
+    locked: 0
   - name: WaterTilemap
     uniqueID: 3497735467
     locked: 0
@@ -77,7 +80,7 @@ TagManager:
   - name: River
     uniqueID: 3627610611
     locked: 0
-  - name: Decorations
+  - name: DecorationsFront
     uniqueID: 2933171587
     locked: 0
   - name: SkillUnlock

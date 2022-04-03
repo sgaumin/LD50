@@ -44,10 +44,10 @@ public class Level10Controller : MonoBehaviour
 
 		Player.MaxBambooPack = 0;
 		Player.MaxBucketWater = 0;
+		Player.WaterBucketCount = 0;
 
 		bamboo.enabled = false;
 		Music.ForceMusic(clip);
-		Level.SetCameraTarget(null);
 
 		yield return new WaitForSeconds(1f);
 		group.DOFade(1f, 0.5f).SetEase(Ease.OutSine);
