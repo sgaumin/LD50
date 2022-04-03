@@ -12,6 +12,11 @@ using static Facade;
 
 public class PlayerController : Singleton<PlayerController>
 {
+	[Header("Stats")]
+	[SerializeField] private bool forceFlipAtStartup;
+	[SerializeField] private int startMaxBucketWater = 1;
+	[SerializeField] private int startMaxBambooPack = 3;
+
 	[Header("Movement")]
 	[SerializeField] private float moveSpeed = 10f;
 	[SerializeField] private float jumpForce = 400f;
@@ -120,10 +125,15 @@ public class PlayerController : Singleton<PlayerController>
 
 	private void Start()
 	{
+		if (forceFlipAtStartup)
+		{
+			Flip();
+		}
+
 		WaterBucketCount = 0;
 		BambooPackCount = 0;
-		MaxBucketWater = Level.StartMaxBucketWater;
-		MaxBambooPack = Level.StartMaxBambooPack;
+		MaxBucketWater = startMaxBucketWater;
+		MaxBambooPack = startMaxBambooPack;
 
 		body.gravityScale = defaultGravityScale;
 		attackReady = true;
@@ -206,6 +216,12 @@ public class PlayerController : Singleton<PlayerController>
 		}
 
 		Move(movementInputs, jumpInput);
+	}
+
+	public void ForceMovement(Vector2 direction)
+	{
+		movementInputs = direction;
+		Move(movementInputs, false);
 	}
 
 	private IEnumerator DoAttack()

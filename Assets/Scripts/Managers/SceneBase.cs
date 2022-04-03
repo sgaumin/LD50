@@ -366,6 +366,12 @@ public abstract class SceneBase : Singleton<SceneBase>
 		}
 	}
 
+	[ContextMenu("AssignCameraTarget")]
+	private void AssignCameraTarget()
+	{
+		currentCamera.m_Follow = FindObjectOfType<PlayerController>().transform;
+	}
+
 	private IEnumerator LoadSceneCore(Action content = null)
 	{
 		if (inversingColor != null)

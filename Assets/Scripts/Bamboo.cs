@@ -10,6 +10,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using static Facade;
 
+[ExecuteAlways]
 public class Bamboo : MonoBehaviour
 {
 	[SerializeField] private int startStateIndex = 1;
@@ -41,20 +42,42 @@ public class Bamboo : MonoBehaviour
 		CurrentStateIndex = startStateIndex;
 	}
 
-	[ExecuteInEditMode]
-	private void FixedUpdate()
+	private void Update()
 	{
-		if (CurrentStateIndex == 0) return;
+		if (Application.IsPlaying(gameObject))
+		{
+			if (CurrentStateIndex == 0) return;
 
-		var reference = new Vector2(1f, CurrentStateIndex);
-		spriteRenderer.size += evolutionFactor * (reference - spriteRenderer.size);
+			var reference = new Vector2(1f, CurrentStateIndex);
+			spriteRenderer.size += evolutionFactor * (reference - spriteRenderer.size);
 
-		if (box.size != reference)
-			box.size += evolutionFactor * (reference - box.size);
+			if (box.size != reference)
+				box.size += evolutionFactor * (reference - box.size);
 
-		var offsetReference = new Vector2(0f, CurrentStateIndex / 2f);
-		if (box.offset != offsetReference)
-			box.offset += evolutionFactor * (offsetReference - box.offset);
+			var offsetReference = new Vector2(0f, CurrentStateIndex / 2f);
+			if (box.offset != offsetReference)
+				box.offset += evolutionFactor * (offsetReference - box.offset);
+		}
+		else
+		{
+			box.isTrigger = startStateIndex == 0;
+			spriteRenderer.sprite = startStateIndex == 0 ? emptySprite : fullSprite;
+
+			if (startStateIndex == 0)
+			{
+				box.offset = new Vector2(0f, -0.2f);
+				box.size = new Vector2(0.2f, 0.2f);
+			}
+			else
+			{
+				var reference = new Vector2(1f, startStateIndex);
+				spriteRenderer.size = reference;
+				box.size = reference;
+
+				var offsetReference = new Vector2(0f, startStateIndex / 2f);
+				box.offset = offsetReference;
+			}
+		}
 	}
 
 	[ContextMenu("Reduce")]
