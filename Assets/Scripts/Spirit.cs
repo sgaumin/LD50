@@ -12,12 +12,32 @@ using static Facade;
 
 public class Spirit : MonoBehaviour
 {
+	[SerializeField] private AudioExpress fadeSound;
 	[SerializeField] private Dependency<Animator> _animator;
 
 	private Animator animator => _animator.Resolve(this);
 
 	public void Fade()
 	{
+		StartCoroutine(FadeCore());
+	}
+
+	private IEnumerator FadeCore()
+	{
+		fadeSound.Play();
 		animator.SetTrigger("Fade");
+		Level.SetCameraTarget(transform);
+		Level.Zoom(5f, 0.5f, Ease.OutSine);
+
+		Player.CancelInteraction = true;
+
+		yield return new WaitForSeconds(2f);
+
+		Level.ResetZoom(0.5f, Ease.OutSine);
+		Level.ResetCameraTarget();
+		Player.CancelInteraction = false;
+
+		yield return new WaitForSeconds(1f);
+		Level.CheckLevelCompletion();
 	}
 }

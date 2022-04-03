@@ -29,7 +29,6 @@ public class HanamiTree : MonoBehaviour
 			flowerEffect.Play();
 			spirit.Fade();
 			spriteRenderer.sprite = wateredSprite;
-			Level.CheckLevelCompletion();
 		}
 	}
 

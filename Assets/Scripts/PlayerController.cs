@@ -30,6 +30,14 @@ public class PlayerController : Singleton<PlayerController>
 	[SerializeField] private float attackReset = 0.2f;
 	[SerializeField] private GameObject attackArea;
 
+	[Header("Audio")]
+	[SerializeField] private AudioExpress attackingSound;
+	[SerializeField] private AudioExpress bucketWaterSound;
+	[SerializeField] private AudioExpress collectSound;
+	[SerializeField] private AudioExpress deathSound;
+	[SerializeField] private AudioExpress jumpSound;
+	[SerializeField] private AudioExpress walkSound;
+
 	[Header("References")]
 	[SerializeField] private Dependency<Rigidbody2D> _body;
 	[SerializeField] private Dependency<Animator> _animator;
@@ -41,16 +49,30 @@ public class PlayerController : Singleton<PlayerController>
 	private bool jumpInput;
 	private Vector2 movementInputs = Vector2.zero;
 	private Vector3 currentVelocity = Vector3.zero;
-	private Coroutine resettingAttack;
+	private Coroutine attacking;
 	private int waterBucketCount;
 	private int bambooPackCount;
-	private bool isDead;
 	private int maxBucketWater;
 	private int maxBambooPack;
 	private bool airAttackDone;
+	private bool cancelInteraction;
 
 	private Animator animator => _animator.Resolve(this);
 	private Rigidbody2D body => _body.Resolve(this);
+
+	public bool CancelInteraction
+	{
+		get => cancelInteraction; set
+		{
+			cancelInteraction = value;
+			if (cancelInteraction)
+			{
+				movementInputs = Vector2.zero;
+				body.velocity = Vector2.zero;
+				body.angularVelocity = 0;
+			}
+		}
+	}
 
 	public int MaxBucketWater
 	{
@@ -109,30 +131,12 @@ public class PlayerController : Singleton<PlayerController>
 
 	private void Update()
 	{
-		if (isDead) return;
+		if (CancelInteraction) return;
 
 		// Attacking
-		if (Input.GetButtonDown("Attack"))
+		if (Input.GetButtonDown("Attack") && attackReady && ((canAirAttack && !airAttackDone) || !isJumping))
 		{
-			if (HasWaterBucket)
-			{
-				animator.SetTrigger("Attack");
-				this.TryStartCoroutine(ResetAttack(), ref resettingAttack);
-			}
-			else if (canAttack && attackReady && ((canAirAttack && !airAttackDone) || !isJumping))
-			{
-				animator.SetTrigger("Attack");
-				this.TryStartCoroutine(ResetAttack(), ref resettingAttack);
-				if (!isJumping)
-				{
-					body.AddForce(new Vector2((facingRight ? -1f : 1f) * attackMoveBackX.RandomValue, attackMoveBackY.RandomValue));
-				}
-				else
-				{
-					airAttackDone = true;
-				}
-				Level.GenerateImpulse();
-			}
+			this.TryStartCoroutine(DoAttack(), ref attacking);
 		}
 
 		// Momvements
@@ -148,9 +152,40 @@ public class PlayerController : Singleton<PlayerController>
 		animator.SetBool("Jumping", isJumping);
 	}
 
+	public void DoWaterBucketAttack(Action callback)
+	{
+		WaterBucketCount--;
+		bucketWaterSound.Play();
+		animator.SetTrigger("Attack");
+		Level.GenerateImpulse();
+
+		callback?.Invoke();
+	}
+
+	public void DoNormalAttack(Action callback)
+	{
+		if (!canAttack) return;
+
+		attackingSound.Play();
+		animator.SetTrigger("Attack");
+		Level.GenerateImpulse();
+		Level.FreezeTime();
+
+		if (!isJumping)
+		{
+			body.AddForce(new Vector2((facingRight ? -1f : 1f) * attackMoveBackX.RandomValue, attackMoveBackY.RandomValue));
+		}
+		else
+		{
+			airAttackDone = true;
+		}
+
+		callback?.Invoke();
+	}
+
 	private void FixedUpdate()
 	{
-		if (isDead) return;
+		if (CancelInteraction) return;
 
 		isGrounded = false;
 		Collider2D[] colliders = Physics2D.OverlapCircleAll(groundCheck.position, 0.2f, groundLayer);
@@ -173,14 +208,13 @@ public class PlayerController : Singleton<PlayerController>
 		Move(movementInputs, jumpInput);
 	}
 
-	private IEnumerator ResetAttack()
+	private IEnumerator DoAttack()
 	{
 		attackReady = false;
 		attackArea.gameObject.SetActive(true);
 
 		yield return new WaitForSeconds(attackReset);
 
-		WaterBucketCount--;
 		attackArea.gameObject.SetActive(false);
 		attackReady = true;
 	}
@@ -206,18 +240,27 @@ public class PlayerController : Singleton<PlayerController>
 			jumpInput = false;
 			isGrounded = false;
 			isJumping = true;
+
 			body.AddForce(new Vector2(0f, jumpForce));
+			jumpSound.Play();
 		}
+	}
+
+	public void PlayWalkSound()
+	{
+		walkSound.Play();
 	}
 
 	public void CollectWaterBucket()
 	{
 		WaterBucketCount++;
+		collectSound.Play();
 	}
 
 	public void CollectBambooPack()
 	{
 		BambooPackCount++;
+		collectSound.Play();
 	}
 
 	private void Flip()
@@ -231,7 +274,8 @@ public class PlayerController : Singleton<PlayerController>
 	public void KilledByRiver()
 	{
 		animator.SetTrigger("WaterDeath");
-		isDead = true;
+		deathSound.Play();
+		CancelInteraction = true;
 		body.Freeze();
 		Level.InverseColor();
 		Level.GenerateImpulse();

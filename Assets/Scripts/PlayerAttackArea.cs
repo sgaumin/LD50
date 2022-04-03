@@ -23,31 +23,46 @@ public class PlayerAttackArea : MonoBehaviour
 	{
 		if (done) return;
 
-		if (Player.HasWaterBucket)
+		if (collision.TryGetComponent(out Bamboo b) && Player.HasWaterBucket)
 		{
-			if (collision.TryGetComponent(out Bamboo b))
+			Player.DoWaterBucketAttack(() =>
 			{
 				b.Grow();
-			}
-			else if (collision.TryGetComponent(out HanamiTree t))
+				done = true;
+			});
+		}
+		else if (collision.TryGetComponent(out HanamiTree t) && Player.HasWaterBucket)
+		{
+			Player.DoWaterBucketAttack(() =>
 			{
 				t.HasBeenWatered = true;
-			}
-			done = true;
+				done = true;
+			});
 		}
-		else
+		else if (collision.TryGetComponent(out BambooBridge br) && !br.IsBuilt)
 		{
-			if (collision.TryGetComponent(out BambooBridge br) && !br.IsBuilt)
+			Player.DoNormalAttack(() =>
 			{
 				var bs = FindObjectsOfType<BambooBridge>().Where(x => !x.IsBuilt).OrderBy(x => Vector2.Distance(x.transform.position, Player.transform.position)).FirstOrDefault();
 				bs.TryBuild();
 				done = true;
-			}
-			else if (collision.TryGetComponent(out Bamboo b))
+			});
+		}
+		else if (collision.TryGetComponent(out Bamboo ba))
+		{
+			Player.DoNormalAttack(() =>
 			{
-				b.Reduce();
+				ba.Reduce();
 				done = true;
-			}
+			});
+		}
+	}
+
+	private void OnDisable()
+	{
+		if (!done)
+		{
+			Player.DoNormalAttack(null);
 		}
 	}
 }
