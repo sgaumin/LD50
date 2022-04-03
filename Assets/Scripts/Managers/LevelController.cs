@@ -48,6 +48,11 @@ public class LevelController : SceneBase
 		StartCoroutine(InactiveBlocker());
 	}
 
+	public void PlayBlokerSound()
+	{
+		blockerSound.Play();
+	}
+
 	private IEnumerator InactiveBlocker()
 	{
 		Player.CancelInteraction = true;

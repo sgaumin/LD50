@@ -151,6 +151,7 @@ MonoBehaviour:
   onCompletion:
     m_PersistentCalls:
       m_Calls: []
+  updateMusic: 1
   newMusic: {fileID: 8300000, guid: ac1c0efb59cdf15418a81cdca51b3fc3, type: 3}
   collectSound:
     isUsingClips: 0

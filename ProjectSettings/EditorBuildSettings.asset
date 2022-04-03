@@ -26,4 +26,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_Scenes/7-ThirdRoad.unity
     guid: 908faa548b8963049ad51c768b8d144a
+  - enabled: 1
+    path: Assets/_Scenes/8-VillageBambooPack.unity
+    guid: f83502f0957864646a9e87f965ac4d24
+  - enabled: 1
+    path: Assets/_Scenes/90-RoadBridges.unity
+    guid: 756af4a004c659b41b4cc2fc1b1fea6f
+  - enabled: 1
+    path: Assets/_Scenes/91-Final.unity
+    guid: e5f31dcc5e3b97c4483a9e60eb909e06
   m_configObjects: {}

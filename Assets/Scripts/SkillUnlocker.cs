@@ -18,12 +18,14 @@ public class SkillUnlocker : MonoBehaviour
 		Attack,
 		Bucket,
 		Collect,
+		AttackAir,
 		MoreBucket
 	}
 
 	[SerializeField] private SkillUnlockerType type;
 	[SerializeField] private string[] lines;
 	[SerializeField] private UnityEvent onCompletion;
+	[SerializeField] private bool updateMusic;
 	[SerializeField] private AudioClip newMusic;
 	[SerializeField] private AudioExpress collectSound;
 
@@ -54,12 +56,20 @@ public class SkillUnlocker : MonoBehaviour
 				case SkillUnlockerType.MoreBucket:
 					Player.MaxBucketWater = 3;
 					break;
+
+				case SkillUnlockerType.AttackAir:
+					Player.ForceAllowAirAttack();
+					break;
 			}
 
 			Level.InverseColor();
 			Level.GenerateImpulse();
 			Level.FreezeTime();
-			Music.FadOut(0.2f);
+
+			if (updateMusic)
+			{
+				Music.FadOut(0.2f);
+			}
 			collectSound.Play();
 
 			if (lines.Length > 0)

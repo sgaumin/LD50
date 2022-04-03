@@ -148,6 +148,16 @@ public class PlayerController : Singleton<PlayerController>
 		canAttack = true;
 	}
 
+	public void ForceDisallowAttack()
+	{
+		canAttack = false;
+	}
+
+	public void ForceAllowAirAttack()
+	{
+		canAirAttack = true;
+	}
+
 	private void Update()
 	{
 		if (CancelInteraction) return;
