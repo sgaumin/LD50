@@ -134,7 +134,7 @@ public class PlayerController : Singleton<PlayerController>
 		if (CancelInteraction) return;
 
 		// Attacking
-		if (Input.GetButtonDown("Attack") && attackReady && ((canAirAttack && !airAttackDone) || !isJumping))
+		if (Input.GetButtonDown("Attack") && attackReady && ((canAirAttack && !airAttackDone) || (!isJumping && isGrounded)))
 		{
 			this.TryStartCoroutine(DoAttack(), ref attacking);
 		}
