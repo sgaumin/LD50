@@ -42,7 +42,6 @@ public class Spirit : MonoBehaviour
 
 		if (checkLevelCompletion)
 		{
-			yield return new WaitForSeconds(1f);
 			Level.CheckLevelCompletion();
 		}
 

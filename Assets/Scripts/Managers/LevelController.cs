@@ -14,6 +14,7 @@ using static Facade;
 public class LevelController : SceneBase
 {
 	[SerializeField] private GameObject blocker;
+	[SerializeField] private AudioExpress blockerSound;
 
 	private List<HanamiTree> trees = new List<HanamiTree>();
 
@@ -53,6 +54,7 @@ public class LevelController : SceneBase
 		SetCameraTarget(blocker.transform);
 		yield return new WaitForSeconds(1f);
 		blocker.SetActive(false);
+		blockerSound.Play();
 		Level.GenerateImpulse();
 		yield return new WaitForSeconds(1f);
 		ResetCameraTarget();

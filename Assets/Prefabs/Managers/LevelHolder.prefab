@@ -237,7 +237,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dontDestroy: 0
   music: {fileID: 8300000, guid: ac1c0efb59cdf15418a81cdca51b3fc3, type: 3}
-  faderDuration: 0.3
+  faderDuration: 1
   _fader:
     _source: 2
     _localReference: {fileID: 0}
@@ -252,6 +252,20 @@ MonoBehaviour:
     _localReference: {fileID: 0}
   mixer: {fileID: 24100000, guid: dbd143edd4df0224d92ac4ff39f0844e, type: 2}
   transition: {fileID: 2100000, guid: bbb5062d96b699f4d9c1b1bfbf109ce9, type: 2}
+  blocker: {fileID: 0}
+  blockerSound:
+    isUsingClips: 0
+    clip: {fileID: 8300000, guid: fd757aab6894a1a42a23ba923b311d88, type: 3}
+    clips: []
+    mixerGroup: {fileID: -4593325166578963375, guid: dbd143edd4df0224d92ac4ff39f0844e,
+      type: 2}
+    loopType: 0
+    timeBetweenLoop:
+      min: 1
+      max: 3
+    pitchVariation: 3
+    autoDestroy: 0
+    multiplier: 5
 --- !u!114 &6724002783205896963
 MonoBehaviour:
   m_ObjectHideFlags: 0

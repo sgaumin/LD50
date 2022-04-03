@@ -84,12 +84,6 @@ public class Bamboo : MonoBehaviour
 	[ContextMenu("Reduce")]
 	public void Reduce()
 	{
-		if (!hasBeenTouched)
-		{
-			hasBeenTouched = true;
-			CurrentStateIndex = startStateIndex;
-		}
-
 		if (CurrentStateIndex > 0)
 		{
 			int count = bambooStackCreation.RandomValue;

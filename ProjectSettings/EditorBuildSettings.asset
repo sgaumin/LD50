@@ -19,8 +19,11 @@ EditorBuildSettings:
     guid: d7acb2af46e889143ba62e866f058981
   - enabled: 1
     path: Assets/_Scenes/5-VillageWaterBucket.unity
+    guid: 8cf895ae905b6174b8f8db45bb5b8e25
+  - enabled: 1
+    path: Assets/_Scenes/6-SecondRoad.unity
     guid: 4d0f88c5eb46f8e4e8959060b66b59c6
   - enabled: 1
-    path: Assets/_Scenes/99-Dev.unity
-    guid: 9a798019197ab7549a8903b0880ea136
+    path: Assets/_Scenes/7-ThirdRoad.unity
+    guid: 908faa548b8963049ad51c768b8d144a
   m_configObjects: {}

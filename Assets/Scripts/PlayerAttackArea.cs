@@ -29,7 +29,7 @@ public class PlayerAttackArea : MonoBehaviour
 				done = true;
 			});
 		}
-		else if (!done && collision.TryGetComponent(out HanamiTree t) && Player.HasWaterBucket)
+		else if (!done && collision.TryGetComponent(out HanamiTree t) && !t.HasBeenWatered && Player.HasWaterBucket)
 		{
 			Player.DoWaterBucketAttack(() =>
 			{
