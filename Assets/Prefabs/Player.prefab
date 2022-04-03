@@ -145,7 +145,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1410311323
-  m_SortingLayer: 7
+  m_SortingLayer: 8
   m_SortingOrder: 0
   m_Sprite: {fileID: -2183645040130723577, guid: 577f084448bfcc84c9ca497f32115f25,
     type: 3}
@@ -244,6 +244,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 704
   groundCheck: {fileID: 5159677135432538373}
+  canAttack: 1
   canAirAttack: 0
   attackReset: 0.2
   attackArea: {fileID: 5159677133665907436}

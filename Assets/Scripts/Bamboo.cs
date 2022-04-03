@@ -12,20 +12,13 @@ using static Facade;
 
 public class Bamboo : MonoBehaviour
 {
-	[Serializable]
-	private struct BambooStateData
-	{
-		public Sprite Sprite;
-		public Vector2 offset;
-		public Vector2 size;
-	}
-
 	[SerializeField] private int startStateIndex = 1;
 	[SerializeField] private float evolutionFactor = 0.1f;
-	[SerializeField] private List<BambooStateData> states = new List<BambooStateData>();
 	[SerializeField, IntRangeSlider(0, 5)] private IntRange bambooStackCreation = new IntRange(0, 3);
 
 	[Header("References")]
+	[SerializeField] private Sprite emptySprite;
+	[SerializeField] private Sprite fullSprite;
 	[SerializeField] private Dependency<BoxCollider2D> _box;
 	[SerializeField] private Dependency<SpriteRenderer> _spriteRenderer;
 
@@ -36,11 +29,10 @@ public class Bamboo : MonoBehaviour
 		get => currentStateIndex;
 		set
 		{
-			currentStateIndex = value;
+			currentStateIndex = Mathf.Max(0, value);
 			UpdateState();
 		}
 	}
-	private BambooStateData CurrentData => states[CurrentStateIndex];
 	private SpriteRenderer spriteRenderer => _spriteRenderer.Resolve(this);
 	private BoxCollider2D box => _box.Resolve(this);
 
@@ -49,13 +41,20 @@ public class Bamboo : MonoBehaviour
 		CurrentStateIndex = startStateIndex;
 	}
 
+	[ExecuteInEditMode]
 	private void FixedUpdate()
 	{
-		if (box.offset != CurrentData.offset)
-			box.offset += evolutionFactor * (CurrentData.offset - box.offset);
+		if (CurrentStateIndex == 0) return;
 
-		if (box.size != CurrentData.size)
-			box.size += evolutionFactor * (CurrentData.size - box.size);
+		var reference = new Vector2(1f, CurrentStateIndex);
+		spriteRenderer.size += evolutionFactor * (reference - spriteRenderer.size);
+
+		if (box.size != reference)
+			box.size += evolutionFactor * (reference - box.size);
+
+		var offsetReference = new Vector2(0f, CurrentStateIndex / 2f);
+		if (box.offset != offsetReference)
+			box.offset += evolutionFactor * (offsetReference - box.offset);
 	}
 
 	[ContextMenu("Reduce")]
@@ -67,25 +66,29 @@ public class Bamboo : MonoBehaviour
 			for (int i = 0; i < count; i++)
 			{
 				var b = Instantiate(Prefabs.bambooPackPrefab);
-				b.transform.position = transform.position;
+				b.transform.position = (Vector2)transform.position + new Vector2(0f, CurrentStateIndex / 2f);
 				b.Throw();
 			}
 		}
 
-		CurrentStateIndex = Mathf.Max(0, CurrentStateIndex - 1);
+		CurrentStateIndex--;
 	}
 
 	[ContextMenu("Grow")]
 	public void Grow()
 	{
-		CurrentStateIndex = Mathf.Min(states.Count - 1, CurrentStateIndex + 1);
+		CurrentStateIndex++;
 	}
 
 	private void UpdateState()
 	{
 		box.isTrigger = CurrentStateIndex == 0;
+		spriteRenderer.sprite = CurrentStateIndex == 0 ? emptySprite : fullSprite;
 
-		var data = states[CurrentStateIndex];
-		if (data.Sprite != null) spriteRenderer.sprite = data.Sprite;
+		if (CurrentStateIndex == 0)
+		{
+			box.offset = new Vector2(0f, -0.2f);
+			box.size = new Vector2(0.2f, 0.2f);
+		}
 	}
 }

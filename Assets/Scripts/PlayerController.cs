@@ -25,6 +25,7 @@ public class PlayerController : Singleton<PlayerController>
 	[SerializeField] private Transform groundCheck;
 
 	[Header("Attacking")]
+	[SerializeField] private bool canAttack;
 	[SerializeField] private bool canAirAttack;
 	[SerializeField] private float attackReset = 0.2f;
 	[SerializeField] private GameObject attackArea;
@@ -34,7 +35,7 @@ public class PlayerController : Singleton<PlayerController>
 	[SerializeField] private Dependency<Animator> _animator;
 
 	private bool isGrounded;
-	private bool canAttack;
+	private bool attackReady;
 	private bool isJumping;
 	private bool facingRight = true;
 	private bool jumpInput;
@@ -46,6 +47,7 @@ public class PlayerController : Singleton<PlayerController>
 	private bool isDead;
 	private int maxBucketWater;
 	private int maxBambooPack;
+	private bool airAttackDone;
 
 	private Animator animator => _animator.Resolve(this);
 	private Rigidbody2D body => _body.Resolve(this);
@@ -102,7 +104,7 @@ public class PlayerController : Singleton<PlayerController>
 		MaxBambooPack = Level.StartMaxBambooPack;
 
 		body.gravityScale = defaultGravityScale;
-		canAttack = true;
+		attackReady = true;
 	}
 
 	private void Update()
@@ -110,16 +112,27 @@ public class PlayerController : Singleton<PlayerController>
 		if (isDead) return;
 
 		// Attacking
-		if (canAttack && Input.GetButtonDown("Attack") && (canAirAttack || !isJumping))
+		if (Input.GetButtonDown("Attack"))
 		{
-			if (!HasWaterBucket)
+			if (HasWaterBucket)
 			{
-				body.AddForce(new Vector2((facingRight ? -1f : 1f) * attackMoveBackX.RandomValue, attackMoveBackY.RandomValue));
+				animator.SetTrigger("Attack");
+				this.TryStartCoroutine(ResetAttack(), ref resettingAttack);
+			}
+			else if (canAttack && attackReady && ((canAirAttack && !airAttackDone) || !isJumping))
+			{
+				animator.SetTrigger("Attack");
+				this.TryStartCoroutine(ResetAttack(), ref resettingAttack);
+				if (!isJumping)
+				{
+					body.AddForce(new Vector2((facingRight ? -1f : 1f) * attackMoveBackX.RandomValue, attackMoveBackY.RandomValue));
+				}
+				else
+				{
+					airAttackDone = true;
+				}
 				Level.GenerateImpulse();
 			}
-
-			animator.SetTrigger("Attack");
-			this.TryStartCoroutine(ResetAttack(), ref resettingAttack);
 		}
 
 		// Momvements
@@ -148,6 +161,7 @@ public class PlayerController : Singleton<PlayerController>
 				isGrounded = true;
 				isJumping = false;
 				body.gravityScale = defaultGravityScale;
+				airAttackDone = false;
 			}
 		}
 
@@ -161,14 +175,14 @@ public class PlayerController : Singleton<PlayerController>
 
 	private IEnumerator ResetAttack()
 	{
-		canAttack = false;
+		attackReady = false;
 		attackArea.gameObject.SetActive(true);
 
 		yield return new WaitForSeconds(attackReset);
 
 		WaterBucketCount--;
 		attackArea.gameObject.SetActive(false);
-		canAttack = true;
+		attackReady = true;
 	}
 
 	public void Move(Vector2 direction, bool jump)

@@ -132,7 +132,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 5
-  m_AngularDrag: 0.05
+  m_AngularDrag: 1
   m_GravityScale: 5
   m_Material: {fileID: 0}
   m_Interpolate: 0
@@ -153,11 +153,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   collectTime: 0.5
   throwDirectionX:
-    min: 350
-    max: 450
+    min: 400
+    max: 900
   throwDirectionY:
-    min: 250
-    max: 350
+    min: 400
+    max: 800
+  torqueForce:
+    min: -80
+    max: 80
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
   moveToIconDuration: 0.7
   moveToIconScale: 0
   moveToIconEase: 3

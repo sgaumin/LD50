@@ -13,8 +13,12 @@ using static Facade;
 public class BambooPack : MonoBehaviour
 {
 	[SerializeField] private float collectTime = 0.5f;
-	[SerializeField, FloatRangeSlider(0f, 500f)] private FloatRange throwDirectionX = new FloatRange(350f, 450f);
-	[SerializeField, FloatRangeSlider(0f, 500f)] private FloatRange throwDirectionY = new FloatRange(250f, 350f);
+	[SerializeField, FloatRangeSlider(0f, 1000f)] private FloatRange throwDirectionX = new FloatRange(350f, 450f);
+	[SerializeField, FloatRangeSlider(0f, 1000f)] private FloatRange throwDirectionY = new FloatRange(250f, 350f);
+	[SerializeField, FloatRangeSlider(-1000f, 1000f)] private FloatRange torqueForce = new FloatRange(250f, 350f);
+
+	[Header("Falling")]
+	[SerializeField] private LayerMask groundLayer;
 
 	[Header("Animations")]
 	[SerializeField] private float moveToIconDuration = 0.5f;
@@ -31,13 +35,27 @@ public class BambooPack : MonoBehaviour
 
 	private bool canBeCollected;
 	private bool hasBeenColleted;
+	private bool isGrounded;
 
 	public void Throw()
 	{
-		StartCoroutine(ReadyCollect());
-
 		var factor = Player.transform.position.x > transform.position.x ? -1f : 1f;
 		body.AddForce(new Vector2(factor * throwDirectionX.RandomValue, throwDirectionY.RandomValue));
+		body.AddTorque(torqueForce.RandomValue);
+	}
+
+	private void FixedUpdate()
+	{
+		if (isGrounded) return;
+		Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, 0.5f, groundLayer);
+		for (int i = 0; i < colliders.Length; i++)
+		{
+			if (colliders[i].gameObject != gameObject)
+			{
+				isGrounded = true;
+				StartCoroutine(ReadyCollect());
+			}
+		}
 	}
 
 	private IEnumerator ReadyCollect()
