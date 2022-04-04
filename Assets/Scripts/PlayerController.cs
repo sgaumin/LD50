@@ -29,6 +29,9 @@ public class PlayerController : Singleton<PlayerController>
 	[SerializeField] private LayerMask groundLayer;
 	[SerializeField] private Transform groundCheck;
 
+	[Space]
+	[SerializeField] private float walkingEffectAdjust = 0.25f;
+
 	[Header("Attacking")]
 	[SerializeField] private bool canAttack;
 	[SerializeField] private bool canAirAttack;
@@ -299,7 +302,7 @@ public class PlayerController : Singleton<PlayerController>
 		walkSound.Play();
 
 		var e = Instantiate(Prefabs.walkingEffect);
-		e.transform.position = (Vector2)transform.position - Vector2.up * 0.25f;
+		e.transform.position = (Vector2)transform.position - Vector2.up * walkingEffectAdjust;
 		e.transform.localScale = new Vector3(facingRight ? -1f : 1f, 1f, 1f);
 	}
 

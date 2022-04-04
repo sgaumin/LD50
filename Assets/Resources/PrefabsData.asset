@@ -16,3 +16,5 @@ MonoBehaviour:
     type: 3}
   bambooPackPrefab: {fileID: 2554001989549753360, guid: 62ed6e9a48600e240af3718c8058a5a1,
     type: 3}
+  walkingEffect: {fileID: 111923432453468377, guid: c9e17f48a74839b4abdc4107907df8f2,
+    type: 3}
