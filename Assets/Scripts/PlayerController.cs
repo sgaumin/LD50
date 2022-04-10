@@ -19,18 +19,22 @@ public class PlayerController : Singleton<PlayerController>
 
 	[Header("Movement")]
 	[SerializeField] private float moveSpeed = 10f;
-	[SerializeField] private float jumpForce = 400f;
 	[SerializeField, FloatRangeSlider(0f, 500f)] private FloatRange attackMoveBackX = new FloatRange(350f, 450f);
 	[SerializeField, FloatRangeSlider(0f, 500f)] private FloatRange attackMoveBackY = new FloatRange(250f, 350f);
 	[SerializeField] private float defaultGravityScale = 8f;
-	[SerializeField] private float fallingGravityScale = 12f;
-	[SerializeField] private bool hasAirControl = false;
 	[SerializeField, Range(0, .3f)] private float movementSmoothing = .05f;
 	[SerializeField] private LayerMask groundLayer;
 	[SerializeField] private Transform groundCheck;
 
 	[Space]
 	[SerializeField] private float walkingEffectAdjust = 0.25f;
+
+	[Header("Jumping")]
+	[SerializeField] private bool hasAirControl = false;
+	[SerializeField] private float jumpForce = 400f;
+	[SerializeField] private float coyoteTime = 0.05f;
+	[SerializeField] private float fallingGravityScale = 12f;
+	[SerializeField] private float limitVerticalVelocity = 1000f;
 
 	[Header("Attacking")]
 	[SerializeField] private bool canAttack;
@@ -51,6 +55,7 @@ public class PlayerController : Singleton<PlayerController>
 	[SerializeField] private Dependency<Animator> _animator;
 
 	private bool isGrounded;
+	private bool hasCoyoteTime;
 	private bool attackReady;
 	private bool isJumping;
 	private bool facingRight = true;
@@ -58,6 +63,7 @@ public class PlayerController : Singleton<PlayerController>
 	private Vector2 movementInputs = Vector2.zero;
 	private Vector3 currentVelocity = Vector3.zero;
 	private Coroutine attacking;
+	private Coroutine coyoteChecking;
 	private int waterBucketCount;
 	private int bambooPackCount;
 	private int maxBucketWater;
@@ -184,6 +190,39 @@ public class PlayerController : Singleton<PlayerController>
 		animator.SetBool("Jumping", isJumping);
 	}
 
+	private void FixedUpdate()
+	{
+		if (CancelInteraction) return;
+
+		isGrounded = false;
+		Collider2D[] colliders = Physics2D.OverlapCircleAll(groundCheck.position, 0.2f, groundLayer);
+		for (int i = 0; i < colliders.Length; i++)
+		{
+			if (colliders[i].gameObject != gameObject)
+			{
+				isGrounded = true;
+				isJumping = false;
+				body.gravityScale = defaultGravityScale;
+				airAttackDone = false;
+			}
+		}
+
+		if (isGrounded)
+		{
+			this.TryStartCoroutine(CoyoteCore(), ref coyoteChecking);
+		}
+
+		if (isJumping && body.velocity.y < 0f)
+		{
+			body.gravityScale = fallingGravityScale;
+		}
+
+		Move(movementInputs, jumpInput);
+
+		// Forcing max on vertical velocity
+		body.velocity = body.velocity.withY(Mathf.Max(body.velocity.y, limitVerticalVelocity));
+	}
+
 	public void DoWaterBucketAttack(Action callback)
 	{
 		WaterBucketCount--;
@@ -223,29 +262,11 @@ public class PlayerController : Singleton<PlayerController>
 		canBeKickBack = true;
 	}
 
-	private void FixedUpdate()
+	private IEnumerator CoyoteCore()
 	{
-		if (CancelInteraction) return;
-
-		isGrounded = false;
-		Collider2D[] colliders = Physics2D.OverlapCircleAll(groundCheck.position, 0.2f, groundLayer);
-		for (int i = 0; i < colliders.Length; i++)
-		{
-			if (colliders[i].gameObject != gameObject)
-			{
-				isGrounded = true;
-				isJumping = false;
-				body.gravityScale = defaultGravityScale;
-				airAttackDone = false;
-			}
-		}
-
-		if (isJumping && body.velocity.y < 0f)
-		{
-			body.gravityScale = fallingGravityScale;
-		}
-
-		Move(movementInputs, jumpInput);
+		hasCoyoteTime = true;
+		yield return new WaitForSeconds(coyoteTime);
+		hasCoyoteTime = false;
 	}
 
 	public void ForceMovement(Vector2 direction)
@@ -282,12 +303,14 @@ public class PlayerController : Singleton<PlayerController>
 				Flip();
 			}
 		}
-		if (isGrounded && jump)
+		if ((isGrounded || hasCoyoteTime) && jump)
 		{
 			jumpInput = false;
+			hasCoyoteTime = false;
 			isGrounded = false;
 			isJumping = true;
 
+			body.velocity = body.velocity.withY(0f);
 			body.AddForce(new Vector2(0f, jumpForce));
 			jumpSound.Play();
 		}
